@@ -9,37 +9,37 @@ import java.awt.BorderLayout;
 public class MousePaint extends Frame
 	implements MouseListener, MouseMotionListener{
 
-	/***å„ç¨®å¤‰æ•°å®šç¾©***/
-	Button button1 = new Button("ENTER");		//æ›¸ãçµ‚ã‚ã‚Šç”¨ã®ãƒœã‚¿ãƒ³(button1)
-	int x, y;					//å–å¾—ã™ã‚‹åº§æ¨™(x, y)
-	int disArr[][] = new int[30][30];		//å‡ºåŠ›ç”¨é…åˆ—(disArr)
-	int compX, compY;				//åœ§ç¸®å¾Œã®åº§æ¨™(compX, compY)
-	int r = 10;					//ãƒšãƒ³åŠå¾„ï¼†åˆ¤å®šç”¨
+	/***Šeí•Ï”’è‹`***/
+	Button button1 = new Button("ENTER");		//‘‚«I‚í‚è—p‚Ìƒ{ƒ^ƒ“(button1)
+	int x, y;									//æ“¾‚·‚éÀ•W(x, y)
+	int disArr[][] = new int[30][30];			//o—Í—p”z—ñ(disArr)
+	int compX, compY;							//ˆ³kŒã‚ÌÀ•W(compX, compY)
+	int r = 10;									//ƒyƒ“”¼Œa•”»’è—p
+	int mjNo = 0;								//•¶šƒJƒEƒ“ƒg(ƒ{ƒ^ƒ“‰Ÿ‚·‚Æ‘‚¦‚é)
+	int count = 0;								//mouseDragged‚ªŒÄ‚Ñ‚¾‚³‚ê‚½‰ñ”
+	int logSampling = 0;						//•\¦‚ğŠÔˆø‚­‚½‚ß‚Ì•Ï”
+	int lineNo = 0;								//‚Ğ‚¢‚½ü‚Ì”(‰Ÿ‚³‚ê‚Ä—£‚³‚ê‚½‰ñ”)
+	int mjLineX[] = new int[65535];				//xÀ•W•\¦—p‚Ì”z—ñ
+	int mjLineY[] = new int[65535];				//yÀ•W•\¦—p‚Ì”z—ñ
 	
-	int count = 0;					//mouseDraggedãŒå‘¼ã³ã ã•ã‚ŒãŸå›æ•°
-	int logSampling = 0;				//è¡¨ç¤ºã‚’é–“å¼•ããŸã‚ã®å¤‰æ•°
-	int lineNo = 0;					//ã²ã„ãŸç·šã®æ•°(æŠ¼ã•ã‚Œã¦é›¢ã•ã‚ŒãŸå›æ•°)
-	int mjLineX[] = new int[65535];			//xåº§æ¨™è¡¨ç¤ºç”¨ã®é…åˆ—
-	int mjLineY[] = new int[65535];			//yåº§æ¨™è¡¨ç¤ºç”¨ã®é…åˆ—
-
-	/***ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿***/
+	/***ƒRƒ“ƒXƒgƒ‰ƒNƒ^***/
 	public MousePaint(){
 		super("Mouse Paint");
 		setSize(300,350);
 		setLocation(100,100);
 		setBackground(Color.white);
 		
-		/*ãƒã‚¦ã‚¹ãƒªã‚¹ãƒŠãƒ¼*/
+		/*ƒ}ƒEƒXƒŠƒXƒi[*/
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		
-		/*ãƒœã‚¿ãƒ³è¨­ç½®*/
+		/*ƒ{ƒ^ƒ“İ’u*/
 		Panel panel = new Panel();
 		panel.setLayout(new BorderLayout());
 		add(panel, BorderLayout.SOUTH);
 		panel.add(button1);
 		
-		/*ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒªã‚¹ãƒŠãƒ¼*/
+		/*ƒEƒBƒ“ƒhƒEƒŠƒXƒi[*/
 		addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent e){
 				System.exit(0);
@@ -47,20 +47,25 @@ public class MousePaint extends Frame
 		});
 		setVisible(true);
 	}
-
-	/***ãƒã‚¦ã‚¹ãŒæŠ¼ã•ã‚ŒãŸæ™‚***/
+	
+	/***ƒ}ƒEƒX‚ª‰Ÿ‚³‚ê‚½***/
 	public void mousePressed(MouseEvent e){
+		/*À•W‚Ìæ“¾*/
 		x = e.getX();
 		y = e.getY();
+		/*n“_‚ÆÀ•W‚Æ‰½‰æ–Ú‚©‚ğƒRƒ“ƒ\[ƒ‹‚É•\¦*/
 		System.out.println("Start x:"+e.getX()+" y:"+e.getY()+" Line:"+lineNo);
-		lineNo++;
+		lineNo++;	//‰æ”‚ğ‘‚â‚·
 	}
-
-	/***ãƒã‚¦ã‚¹ãŒãƒ‰ãƒ©ãƒƒã‚°ã•ã‚ŒãŸæ™‚***/
+	
+	/***ƒ}ƒEƒX‚ªƒhƒ‰ƒbƒO‚³‚ê‚½***/
 	public void mouseDragged(MouseEvent e){
+		/*À•Wæ“¾*/
 		x = e.getX();
 		y = e.getY();
 		lineDraw(getGraphics());
+		
+		/*10‰ñÀ•W‚ªXV‚³‚ê‚é‚½‚Ñ‚ÉÀ•W(x, y)‚ğ•\¦*/
 		mjLineX[count] = x;
 		mjLineY[count] = y;
 		if(logSampling % 10 == 0){
@@ -69,11 +74,11 @@ public class MousePaint extends Frame
 		count++;
 		logSampling++;
 		
-		/*åº§æ¨™ã‚’10ã§å‰²ã£ã¦ä¸¸ã‚ã‚‹(åœ§ç¸®)*/
+		/*À•W‚ğ10‚ÅŠ„‚Á‚ÄŠÛ‚ß‚é(ˆ³k)*/
 		compX = (int)Math.floor(((double)x)/10);
 		compY = (int)Math.floor(((double)y-20)/10);
 		
-		/*ä¸¸ã‚ãŸåº§æ¨™ã‚’ä¸­å¿ƒã«åŠå¾„rã¾ã§ã‚’ãƒšãƒ³å¤ªã•ã¨ã—ã¦èªè­˜*/
+		/*ŠÛ‚ß‚½À•W‚ğ’†S‚É”¼Œar‚Ü‚Å‚ğƒyƒ“‘¾‚³‚Æ‚µ‚Ä”F¯*/
 		for(int inX = -10; inX < 10; inX++){
 			for(int inY = -10; inY < 10; inY++){
 				if(inX*inX+inY*inY < r*r){
@@ -84,59 +89,69 @@ public class MousePaint extends Frame
 			}
 		}
 	}
-
-	/***ãƒã‚¦ã‚¹ãŒã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸæ™‚***/
-	public void mouseClicked(MouseEvent e){
-		/*ã‚¯ãƒªãƒƒã‚¯2å›(=ãƒ€ãƒ–ãƒ«ã‚¯ãƒªãƒƒã‚¯)ã®æ™‚*/
-		if(e.getClickCount() == 2){
-			for(int i = 0; i < 30 ; i++){
-				for(int j = 0; j < 30 ; j++){
-					System.out.print(disArr[j][i] + " ");
-				}
-				System.out.println("");
-			}
-			repaint();
-		}
-	}
-
-	/***ãƒã‚¦ã‚¹ãŒé›¢ã‚ŒãŸæ™‚***/
+		
+	/***ƒ}ƒEƒX‚ª—£‚ê‚½***/
 	public void mouseReleased(MouseEvent e){
-		System.out.println("Line:"+lineNo+" End");
+		System.out.println("Line:"+lineNo+" End");//I“_‚Ì•\¦
 	}
-
-	public void mouseExited(MouseEvent e){}		//ãƒã‚¦ã‚¹ãŒé ˜åŸŸå¤–ã«å‡ºãŸæ™‚
-	public void mouseMoved(MouseEvent e){}		//ãƒã‚¦ã‚¹ãŒå‹•ã„ãŸæ™‚
-	public void mouseEntered(MouseEvent e){}	//é ˜åŸŸå†…ã«ãƒã‚¦ã‚¹ãŒå…¥ã£ãŸæ™‚
 	
-	/***x,yã‚’ä¸­å¿ƒã¨ã—ãŸåŠå¾„rã®å††ã‚’æç”»***/
+	public void mouseClicked(MouseEvent e){}	//ƒ}ƒEƒX‚ªƒNƒŠƒbƒN‚³‚ê‚½
+	public void mouseExited(MouseEvent e){}		//ƒ}ƒEƒX‚ª—ÌˆæŠO‚Éo‚½
+	public void mouseMoved(MouseEvent e){}		//ƒ}ƒEƒX‚ª“®‚¢‚½
+	public void mouseEntered(MouseEvent e){}	//—Ìˆæ“à‚Éƒ}ƒEƒX‚ª“ü‚Á‚½
+	
+	/***x,y‚ğ’†S‚Æ‚µ‚½”¼Œar‚Ì‰~‚ğ•`‰æ***/
 	public void lineDraw(Graphics g){
 		g.fillOval(x-r, y-r, 2*r, 2*r);
 	}
 		
-	/***ãƒ¡ã‚¤ãƒ³ã‚¯ãƒ©ã‚¹***/
+	/***ƒƒCƒ“ƒNƒ‰ƒX***/
 	public static void main(String[] args){
 		Frame w = new MousePaint();
 		w.setVisible(true);
 	}
 
-	/***å–å¾—ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’æ¸¡ã™***/
+	/***æ“¾‚µ‚½ƒf[ƒ^‚ğ“n‚·***/
 	public void sendData(){
-		//ãƒ•ã‚¡ã‚¤ãƒ«é€ä¿¡
+		//‚±‚±‚ÅƒAƒ‹ƒSƒŠƒYƒ€”Ç‚ÌƒR[ƒh‚ğŒÄ‚Ño‚·
 	}
 		
-	/***ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸæ™‚***/
+	/***ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½***/
 	public boolean action(Event ev, Object o){
 		if(o.equals("ENTER")){
+			/*textƒtƒ@ƒCƒ‹‚ğì‚é*/
+			try{
+				File file = new File(".\\mojiVector" + mjNo + ".txt");
+				FileWriter filewriter = new FileWriter(file);
+				filewriter.write("vector"+mjNo+"\n");
+				filewriter.close();
+			}catch(IOException iox){
+				System.out.println(iox);
+			}
+			
+			/*—v‘f‚Ìo—Í•”*/
 			for(int i = 0; i < 30 ; i++){
 					for(int j = 0; j < 30 ; j++){
 						System.out.print(""+disArr[j][i] + " ");
-						//textã«è½ã¨ã—ã“ã‚€
-						disArr[j][i] = 0;
+						/*—v‘f‚ğtext‚Éo—Í‚·‚é*/
+						try{
+							File file = new File(".\\mojiVector" + mjNo + ".txt");
+							FileWriter filewriter = new FileWriter(file, true);
+							filewriter.write(String.valueOf(disArr[j][i]));
+							filewriter.close();
+						}catch(IOException iox){
+							System.out.println(iox);
+						}
+						
+						disArr[j][i] = 0;//”z—ñ‚Ì’†‚ğ—ë‚É–ß‚·
 					}
 					System.out.println("");
 				}
-			sendData();
-			repaint();
+			
+			sendData();		//ƒAƒ‹ƒSƒŠƒYƒ€”Ç‚É‘õ‚·•”•ª
+			mjNo++;			//•¶š”ƒJƒEƒ“ƒg‚ğ‘‚â‚·
+			lineNo = 0;		//‰æ”ƒJƒEƒ“ƒg‚ğ0‚É
+			repaint();		//•`‰æ—Ìˆæ‚Ì‰Šú‰»
 		}
 		return true;
 	}
